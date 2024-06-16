@@ -17,7 +17,7 @@ Dir.foreach(DIR) do |json_name|
     txt_path = json_path.sub(/\.json$/, ".txt")
     next if File.exist? txt_path
 
-    unless File.exist? pdf_path
+    unless File.exist? pdf_path and json['fileName'].to_i % 14 != Time.new.yday % 14
       pdf_url = URI::parse json['downloadUrl'].sub(/^http:/, "https:")
       puts "GET #{pdf_url}"
       STDOUT.flush
