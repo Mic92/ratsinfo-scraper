@@ -28,7 +28,7 @@ Dir::foreach(path) do |filename|
   m.end = fmt_time(json["end"] ? Time::parse(json["end"]) : (Time::parse(json["start"]) + 7200))
   m.name = json["name"].gsub(/[\r\n]/, " ")
   m.location = %w(description room locality).collect { |key|
-    value = (json['location'][key] || "").gsub(/[\r\n]/, " ")
+    value = ((json['location'] || {}) [key] || "").gsub(/[\r\n]/, " ")
     value == "" ? nil : value
   }.compact.join(", ")
   m.description = json["agendaItem"] ? json["agendaItem"].collect { |a|
