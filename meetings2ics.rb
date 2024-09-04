@@ -26,6 +26,9 @@ Dir::foreach(path) do |filename|
   m.id = json["id"]
   m.start = fmt_time Time::parse(json["start"])
   m.end = fmt_time(json["end"] ? Time::parse(json["end"]) : (Time::parse(json["start"]) + 7200))
+  if m.end <= m.start
+    m.end = fmt_time(Time::parse(json["start"]) + 7200)
+  end
   m.name = json["name"].gsub(/[\r\n]/, " ")
   m.location = %w(description room locality).collect { |key|
     value = ((json['location'] || {}) [key] || "").gsub(/[\r\n]/, " ")
